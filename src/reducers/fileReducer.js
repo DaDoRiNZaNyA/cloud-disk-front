@@ -1,8 +1,9 @@
-const defaultState = {};
+import { createSlice } from "@reduxjs/toolkit";
 
-export default function fileReducer(state = defaultState, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
+const fileSlice = createSlice({
+  name: "files",
+  initialState: {},
+  reducers: {},
+});
+
+export default fileSlice.reducer;
