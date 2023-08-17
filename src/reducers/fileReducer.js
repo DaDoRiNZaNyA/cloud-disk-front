@@ -24,6 +24,9 @@ const fileSlice = createSlice({
     pushDirStack: (state, action) => {
       return { ...state, dirStack: [...state.dirStack, action.payload] };
     },
+    exchangeDirStack: (state, action) => {
+      return { ...state, dirStack: [action.payload] };
+    },
   },
 });
 
@@ -33,5 +36,6 @@ export const {
   addFile,
   setPopupDisplay,
   pushDirStack,
+  exchangeDirStack,
 } = fileSlice.actions;
 export default fileSlice.reducer;
