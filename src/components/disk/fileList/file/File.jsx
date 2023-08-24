@@ -24,7 +24,6 @@ const File = ({ file }) => {
 
   function deleteClickHandler(e){
     e.stopPropagation();
-    console.log(file);
     dispatch(deleteFile(file));
   }
 

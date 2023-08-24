@@ -9,6 +9,7 @@ import {
   setPopupDisplay,
   exchangeDirStack,
 } from "../../reducers/fileReducer";
+import Uploader from "./uploader/Uploader";
 
 const Disk = () => {
   const dispatch = useDispatch();
@@ -34,8 +35,11 @@ const Disk = () => {
 
   function fileUploadHandler(event) {
     const files = [...event.target.files];
-    files.forEach((file) => dispatch(uploadFile(file, currentDir)));
+    files.forEach((file) => {
+      dispatch(uploadFile(file, currentDir));
+    });
   }
+  
 
   useEffect(() => {
     dispatch(getFiles(currentDir));
@@ -90,6 +94,7 @@ const Disk = () => {
       </div>
       <FileList />
       <Popup />
+      <Uploader/>
     </div>
   ) : (
     <div
