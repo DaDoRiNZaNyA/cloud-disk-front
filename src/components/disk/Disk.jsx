@@ -8,6 +8,7 @@ import {
   setCurrentDir,
   setPopupDisplay,
   exchangeDirStack,
+  setView,
 } from "../../reducers/fileReducer";
 import Uploader from "./uploader/Uploader";
 
@@ -15,7 +16,9 @@ const Disk = () => {
   const dispatch = useDispatch();
   const currentDir = useSelector((state) => state.files.currentDir);
   const dirStack = useSelector((state) => state.files.dirStack);
+  const loader = useSelector((state) => state.app.loader);
   const [dragEnter, setDragEnter] = useState(false);
+  const [sort, setSort] = useState("type");
 
   function createDirHandler() {
     dispatch(setPopupDisplay("flex"));
@@ -39,11 +42,10 @@ const Disk = () => {
       dispatch(uploadFile(file, currentDir));
     });
   }
-  
 
   useEffect(() => {
-    dispatch(getFiles(currentDir));
-  }, [currentDir]);
+    dispatch(getFiles(currentDir, sort));
+  }, [currentDir, sort]);
 
   function dragEnterHandler(event) {
     event.preventDefault();
@@ -63,6 +65,14 @@ const Disk = () => {
     let files = [...event.dataTransfer.files];
     files.forEach((file) => dispatch(uploadFile(file, currentDir)));
     setDragEnter(false);
+  }
+
+  if (loader) {
+    return (
+      <div className="loader">
+        <div className="lds-dual-ring"></div>
+      </div>
+    );
   }
 
   return !dragEnter ? (
@@ -91,10 +101,21 @@ const Disk = () => {
             className="disk__upload-input"
           />
         </div>
+        <select
+          className="disk__select"
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+        >
+          <option value={"name"}> По имени</option>
+          <option value={"type"}> По типу</option>
+          <option value={"date"}> По дате</option>
+        </select>
+        <button className="disk__plate" onClick={() => dispatch(setView('plate'))}></button>
+        <button className="disk__list" onClick={() => dispatch(setView('list'))}></button>
       </div>
       <FileList />
       <Popup />
-      <Uploader/>
+      <Uploader />
     </div>
   ) : (
     <div

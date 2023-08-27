@@ -7,6 +7,7 @@ const fileSlice = createSlice({
     currentDir: null,
     popupDisplay: "none",
     dirStack: [],
+    view: "list",
   },
   reducers: {
     setFiles: (state, action) => {
@@ -33,6 +34,12 @@ const fileSlice = createSlice({
         files: [...state.files.filter((file) => file._id !== action.payload)],
       };
     },
+    setView: (state, action) => {
+      return {
+        ...state,
+        view: action.payload,
+      };
+    },
   },
 });
 
@@ -44,5 +51,6 @@ export const {
   pushDirStack,
   exchangeDirStack,
   deleteFileAction,
+  setView,
 } = fileSlice.actions;
 export default fileSlice.reducer;
